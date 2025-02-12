@@ -1,0 +1,90 @@
+import React, { useState } from "react";
+
+// ✅ Cleaned words list (No duplicates, no errors)
+const words = [
+  { word: "aid", translation: "yordam" },
+  { word: "blood", translation: "qon" },
+  { word: "cinema", translation: "kino" },
+  { word: "clinic", translation: "klinika" },
+  { word: "doctor", translation: "shifokor" },
+  { word: "emergency", translation: "favqulodda" },
+  { word: "fever", translation: "isitma" },
+  { word: "heart", translation: "yurak" },
+  { word: "medicine", translation: "tibbiyot, dori" },
+  { word: "oxygen", translation: "kislorod" },
+  { word: "patient", translation: "bemor" },
+  { word: "surgery", translation: "jarrohlik" },
+  { word: "treatment", translation: "davo" },
+  { word: "wound", translation: "jarohat" },
+  { word: "symptoms", translation: "belgilar, alomatlar" },
+  { word: "pharmacy", translation: "dorixona" },
+  { word: "hospital", translation: "shifoxona" },
+  { word: "appointment", translation: "uchrashuv, qabul" },
+  { word: "tooth", translation: "tish" },
+  { word: "foot", translation: "oyoq" },
+  { word: "team", translation: "jamoa" },
+  { word: "technology", translation: "texnologiya" },
+  { word: "confused", translation: "chalkash" },
+  { word: "drowsy", translation: "uyquchan" },
+  { word: "cold", translation: "sovuq" },
+  { word: "good", translation: "yaxshi" },
+  { word: "big", translation: "katta" },
+  { word: "cheap", translation: "arzon" },
+  { word: "expensive", translation: "qimmat" },
+  { word: "famous", translation: "mashhur" },
+  { word: "beautiful", translation: "chiroyli" },
+  { word: "bad", translation: "yomon" },
+  { word: "far", translation: "uzoq" },
+];
+
+// ✅ Function to get 4 random words
+const getRandomWords = () => {
+  let shuffled = [...words].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, 4);
+};
+
+const Quiz = () => {
+  const [options, setOptions] = useState(getRandomWords());
+  const [correctAnswer, setCorrectAnswer] = useState(options[0]); // ✅ Correct answer is always first
+  const [score, setScore] = useState(0);
+
+  // ✅ Handle answer selection
+  const handleAnswer = (answer) => {
+    if (answer.word === correctAnswer.word) {
+      setScore(score + 1);
+    }
+
+    const newOptions = getRandomWords();
+    setOptions(newOptions);
+    setCorrectAnswer(newOptions[0]);
+  };
+
+  return (
+    <div style={{ textAlign: "center", fontFamily: "Arial, sans-serif" }}>
+      <h2>
+        What is the meaning of <span style={{ color: "blue" }}>"{correctAnswer.word}"</span>?
+      </h2>
+      {options.map((option) => (
+        <button
+          key={option.word}
+          onClick={() => handleAnswer(option)}
+          style={{
+            display: "block",
+            margin: "10px auto",
+            padding: "10px 20px",
+            fontSize: "18px",
+            cursor: "pointer",
+            backgroundColor: "#f0f0f0",
+            border: "1px solid #ccc",
+            borderRadius: "5px",
+          }}
+        >
+          {option.translation}
+        </button>
+      ))}
+      <p><strong>Score:</strong> {score}</p>
+    </div>
+  );
+};
+
+export default Quiz;
